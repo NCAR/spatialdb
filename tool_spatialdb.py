@@ -2,7 +2,7 @@ import os
 import sys
 
 import eol_scons
-tools = ['doxygen','sqlitedb']
+tools = ['sqlitedb','doxygen']
 env = Environment(tools = ['default'] + tools)
 
 libsources = Split("""
@@ -16,9 +16,10 @@ SpatiaLiteDB.h
 env.AppendUnique(CPPPATH=['/opt/local/include',]) 
 libspatialdb = env.Library('spatialdb', libsources)
 
-html = env.Apidocs(libsources + headers, DOXYFILE_FILE = "Doxyfile")
+html = env.Apidocs(libsources + headers,  DOXYFILE_DICT={'PROJECT_NAME':'SpatiaLiteDB', 'PROJECT_NUMBER':'1.0'})
+env.Default(html)
 
-Default(libspatialdb)
+env.Default(libspatialdb)
 
 thisdir = env.Dir('.').srcnode().abspath
 
@@ -28,7 +29,7 @@ def spatialdb(env):
     env.AppendUnique(LIBS=['spatialite',])
     env.AppendUnique(CPPPATH   =[thisdir,])
     env.AppendLibrary('spatialdb')
-    env.AppendDoxref('spatialdb')
+    #env.AppendDoxref('spatialdb')
     env.Require(tools)
 
 Export('spatialdb')
