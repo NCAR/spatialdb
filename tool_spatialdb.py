@@ -28,7 +28,7 @@ def spatialdb(env):
     env.AppendUnique(LIBS=['spatialite',])
     env.AppendUnique(CPPPATH   =[thisdir,])
     env.AppendLibrary('spatialdb')
-    #env.AppendDoxref('spatialdb')
+    env.AppendDoxref('SpatialDB')
     env.Require(tools)
 
 Export('spatialdb')
