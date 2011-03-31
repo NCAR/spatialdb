@@ -25,10 +25,12 @@ thisdir = env.Dir('.').srcnode().abspath
 def spatialdb(env):
     env.AppendUnique(CPPPATH=['/opt/local/include',]) 
     env.AppendUnique(LIBPATH=['/opt/local/lib',])
-    env.AppendUnique(LIBS=['spatialite',])
     env.AppendUnique(CPPPATH   =[thisdir,])
     env.AppendLibrary('spatialdb')
+    env.AppendUnique(LIBS=['spatialite',])
+
     env.AppendDoxref('SpatialDB')
+
     env.Require(tools)
 
 Export('spatialdb')
