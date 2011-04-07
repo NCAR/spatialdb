@@ -3,7 +3,6 @@
 
 #include "SQLiteDB.h"
 
-#include <spatialite/sqlite3.h>
 #include <spatialite/gaiageo.h>
 #include <spatialite.h>
 #include <ostream>

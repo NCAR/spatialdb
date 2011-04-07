@@ -4,6 +4,9 @@ import sys
 import eol_scons
 tools = ['sqlitedb','doxygen','prefixoptions']
 env = Environment(tools = ['default'] + tools)
+platform = env['PLATFORM']
+if platform == 'win32':
+    env.AppendUnique(CPPDEFINES=['SPATIALITE_AMALGAMATION',])
 
 libsources = Split("""
 SpatiaLiteDB.cpp
@@ -27,9 +30,10 @@ def spatialdb(env):
     env.AppendUnique(LIBPATH=['/opt/local/lib',])
     env.AppendUnique(CPPPATH   =[thisdir,])
     env.AppendLibrary('spatialdb')
-    env.AppendUnique(LIBS=['spatialite',])
-
+    env.AppendLibrary('spatialite')
     env.AppendDoxref('SpatialDB')
+    if platform == 'win32':
+        env.AppendUnique(CPPDEFINES=['SPATIALITE_AMALGAMATION',])
 
     env.Require(tools)
 
