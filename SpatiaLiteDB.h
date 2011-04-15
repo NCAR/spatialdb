@@ -42,6 +42,8 @@ public:
 		virtual ~Polygon();
 		void setExtRing(Ring r);
 		void addIntRing(Ring r);
+		Ring extRing();
+		std::vector<Ring> intRings();
 		friend std::ostream& operator<<(std::ostream &lhs, Polygon& rhs);
 	protected:
 		Ring _extRing;

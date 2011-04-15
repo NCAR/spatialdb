@@ -86,6 +86,16 @@ void SpatiaLiteDB::Polygon::addIntRing(Ring r) {
 }
 
 ////////////////////////////////////////////////////////////////////
+SpatiaLiteDB::Ring SpatiaLiteDB::Polygon::extRing() {
+	return _extRing;
+}
+
+////////////////////////////////////////////////////////////////////
+std::vector<SpatiaLiteDB::Ring> SpatiaLiteDB::Polygon::intRings() {
+	return _intRings;
+}
+
+////////////////////////////////////////////////////////////////////
 std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Polygon& rhs) {
 	lhs << rhs._extRing;
 
@@ -131,10 +141,12 @@ SpatiaLiteDB::PolygonList::~PolygonList() {
 SpatiaLiteDB::SpatiaLiteDB(std::string dbPath) throw (std::string) :
 SQLiteDB(dbPath, true)
 {
-	// initialize spatiaLite.
+	// initialize spatiaLite. This must be done before
+	// initializing sqlite.
 	/// @todo Does this need to be a singleton for the process?
 	spatialite_init(1);
 
+	// initialize sqlite
 	SQLiteDB::init();
 }
 
