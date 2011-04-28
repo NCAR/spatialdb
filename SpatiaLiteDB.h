@@ -1,11 +1,9 @@
 #ifndef SPATIALITEDB_INC
 #define SPATIALITEDB_INC
 
-#include "SQLiteDB.h"
-
-#include <spatialite/gaiageo.h>
-#include <spatialite.h>
 #include <ostream>
+#include "SQLiteDB.h"
+#include <spatialite/gaiageo.h>
 
 class SpatiaLiteDB: public SQLiteDB {
 
