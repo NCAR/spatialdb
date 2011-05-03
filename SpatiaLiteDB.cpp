@@ -188,7 +188,7 @@ void SpatiaLiteDB::queryGeometry(
 		 geometry_col        <<
 		 " FROM "           <<
 		 table               <<
-		 " WHERE  MbrWithin(" <<
+		 " WHERE  MbrIntersects(" <<
 		 geometry_col        <<
 		 ", BuildMbr("         <<
 		 left                <<
@@ -335,5 +335,31 @@ SpatiaLiteDB::PolygonList SpatiaLiteDB::polygons() {
 }
 
 ////////////////////////////////////////////////////////////////////
+std::vector<std::string> SpatiaLiteDB::geometryTables() {
+
+	std::vector<std::string> all_tables = table_names();
+
+	// find all tables containing a geometry column
+	std::vector<std::string> geometry_tables;
+
+	for (std::vector<std::string>::iterator table = all_tables.begin();
+			table != all_tables.end(); table++) {
+
+		std::vector<std::string> columns = column_names(*table);
+
+		for (std::vector<std::string>::iterator column = columns.begin();
+				column != columns.end(); column++) {
+			std::transform(column->begin(), column->end(), column->begin(),
+					(int(*)(int))std::tolower);
+
+			if (!column->compare("geometry")) {
+				geometry_tables.push_back(*table);
+			}
+		}
+	}
+
+	return geometry_tables;
+}
+
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////

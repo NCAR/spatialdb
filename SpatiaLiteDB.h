@@ -2,6 +2,8 @@
 #define SPATIALITEDB_INC
 
 #include <ostream>
+#include <string>
+#include <vector>
 #include "SQLiteDB.h"
 #include <spatialite/gaiageo.h>
 
@@ -71,6 +73,8 @@ public:
 	virtual ~SpatiaLiteDB();
 	/// @return Return a string with version information
 	std::string version();
+	///
+	std::vector<std::string> geometryTables();
 	///
 	void queryGeometry(
 			std::string table,
