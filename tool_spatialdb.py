@@ -30,6 +30,7 @@ def spatialdb(env):
     env.AppendLibrary('iconv')
     env.AppendDoxref('SpatialDB')  
     env.AppendUnique(CPPDEFINES=['SPATIALITE_AMALGAMATION',])
+    env.Replace(CCFLAGS=['-g','-O2'])
     env.Require(tools)
 
 Export('spatialdb')
