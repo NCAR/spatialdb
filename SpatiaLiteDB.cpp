@@ -1,5 +1,6 @@
 #include "SpatiaLiteDB.h"
 #include <iostream>
+#include <algorithm>
 
 ////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::Point::Point(double x, double y) {
