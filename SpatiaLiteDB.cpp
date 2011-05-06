@@ -3,9 +3,11 @@
 #include <algorithm>
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::Point::Point(double x, double y) {
-	_x = x;
-	_y= y;
+SpatiaLiteDB::Point::Point(double x, double y, std::string label):
+_x(x),
+_y(y),
+_label(label)
+{
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -20,7 +22,9 @@ std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Point& rhs) {
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::Linestring::Linestring() {
+SpatiaLiteDB::Linestring::Linestring(std::string label):
+_label(label)
+{
 
 }
 
@@ -67,7 +71,9 @@ std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Ring& rhs) {
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::Polygon::Polygon() {
+SpatiaLiteDB::Polygon::Polygon(std::string label):
+_label(label)
+{
 
 }
 
@@ -109,7 +115,8 @@ std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Polygon& rhs) {
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::PointList::PointList() {
+SpatiaLiteDB::PointList::PointList()
+{
 
 }
 
@@ -119,7 +126,8 @@ SpatiaLiteDB::PointList::~PointList() {
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::LinestringList::LinestringList() {
+SpatiaLiteDB::LinestringList::LinestringList()
+{
 
 }
 
@@ -129,7 +137,8 @@ SpatiaLiteDB::LinestringList::~LinestringList() {
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::PolygonList::PolygonList() {
+SpatiaLiteDB::PolygonList::PolygonList(std::string label)
+{
 
 }
 
@@ -172,22 +181,33 @@ void SpatiaLiteDB::queryGeometry(
 		double left,
 		double bottom,
 		double right,
-		double top) {
+		double top,
+		std::string label_col) {
 
 	_pointlist.clear();
 	_linestringlist.clear();
 	_polygonlist.clear();
+	bool getLabel = label_col.size() != 0;
 
 	// Search for geometry and name
 
-	// The query will be:
+	// The query will be either
+	//
 	// SELECT Geometry FROM  table WHERE MbrWithin(Column, BuildMbr(-180.0, -90.0, 180.0, 90.0));
-
+	//    or
+	// SELECT Geometry,Label FROM  table WHERE MbrWithin(Column, BuildMbr(-180.0, -90.0, 180.0, 90.0));
+	//
+	// where Geometry is the geometry column name and Label is the column containing a name or label
+	std::string label;
+	if (getLabel) {
+		label = "," + label_col;
+	}
 	std::stringstream s;
 	s <<
 		 "SELECT "           <<
 		 geometry_col        <<
-		 " FROM "           <<
+		 label               <<
+		 " FROM "            <<
 		 table               <<
 		 " WHERE  MbrIntersects(" <<
 		 geometry_col        <<
@@ -208,15 +228,24 @@ void SpatiaLiteDB::queryGeometry(
 	while (step()) {
 		// get the geometry
 		gaiaGeomCollPtr geom = Geom(0);
-		PointList points = point_list(geom);
+		// get the label, if we asked for it
+		std::string label;
+		if (getLabel) {
+			label = Text(1);
+		}
+		// the following will create lists for points, lines and polygons found in
+		// a single geometry. In practice it seems that only one of those types
+		// exists for a given geometry, but it's not clear if this is a requirement
+		// or just occurs in the sample databases we have been working with.
+		PointList points = point_list(geom, label);
 		for (PointList::iterator i = points.begin(); i != points.end(); i++) {
 			_pointlist.push_back(*i);
 		}
-		LinestringList lines = linestring_list(geom);
+		LinestringList lines = linestring_list(geom, label);
 		for (LinestringList::iterator i = lines.begin(); i != lines.end(); i++) {
 			_linestringlist.push_back(*i);
 		}
-		PolygonList polys = polygon_list(geom);
+		PolygonList polys = polygon_list(geom, label);
 		for (PolygonList::iterator i = polys.begin(); i != polys.end(); i++) {
 			_polygonlist.push_back(*i);
 		}
@@ -244,29 +273,28 @@ gaiaGeomCollPtr SpatiaLiteDB::Geom(int col) throw (std::string) {
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::PointList SpatiaLiteDB::point_list(gaiaGeomCollPtr geom) {
+SpatiaLiteDB::PointList SpatiaLiteDB::point_list(gaiaGeomCollPtr geom, std::string label) {
 
 	SpatiaLiteDB::PointList pl;
 
 	gaiaPointPtr point = geom->FirstPoint;
 
 	while (point) {
-		pl.push_back(SpatiaLiteDB::Point(point->X, point->Y));
+		pl.push_back(SpatiaLiteDB::Point(point->X, point->Y, label));
 		point = point->Next;
 	}
-
 	return pl;
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::LinestringList SpatiaLiteDB::linestring_list(gaiaGeomCollPtr geom) {
+SpatiaLiteDB::LinestringList SpatiaLiteDB::linestring_list(gaiaGeomCollPtr geom, std::string label) {
 
 	SpatiaLiteDB::LinestringList ll;
 
 	gaiaLinestringPtr linestring = geom->FirstLinestring;
 
 	while (linestring) {
-		Linestring ls;
+		Linestring ls(label);
 		for (int i = 0; i < linestring->Points; i++) {
 			double x;
 			double y;
@@ -281,7 +309,7 @@ SpatiaLiteDB::LinestringList SpatiaLiteDB::linestring_list(gaiaGeomCollPtr geom)
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::PolygonList SpatiaLiteDB::polygon_list(gaiaGeomCollPtr geom) {
+SpatiaLiteDB::PolygonList SpatiaLiteDB::polygon_list(gaiaGeomCollPtr geom, std::string label) {
 
 	double x;
 	double y;
@@ -290,7 +318,7 @@ SpatiaLiteDB::PolygonList SpatiaLiteDB::polygon_list(gaiaGeomCollPtr geom) {
 	gaiaPolygonPtr polygon = geom->FirstPolygon;
 
 	while (polygon) {
-		Polygon p;
+		Polygon p(label);
 
 		gaiaRingPtr rExt = polygon->Exterior;
 		Ring r(rExt->Clockwise);

@@ -12,18 +12,20 @@ class SpatiaLiteDB: public SQLiteDB {
 public:
 	class Point {
 	public:
-		Point(double x, double y);
+		Point(double x, double y, std::string label = "");
 		virtual ~Point();
 		friend std::ostream& operator<<(std::ostream &lhs, Point& rhs);
 		double _x;
 		double _y;
+		std::string _label;
 	};
 
 
 	class Linestring: public std::vector<Point>  {
 	public:
-		Linestring();
+		Linestring(std::string label = "");
 		virtual ~Linestring();
+		std::string _label;
 		friend std::ostream& operator<<(std::ostream &lhs, Linestring& rhs);
 	};
 
@@ -38,10 +40,11 @@ public:
 
 	class Polygon {
 	public:
-		Polygon();
+		Polygon(std::string label = "");
 		virtual ~Polygon();
 		void setExtRing(Ring r);
 		void addIntRing(Ring r);
+		std::string _label;
 		Ring extRing();
 		std::vector<Ring> intRings();
 		friend std::ostream& operator<<(std::ostream &lhs, Polygon& rhs);
@@ -64,7 +67,7 @@ public:
 
 	class PolygonList: public std::vector<Polygon> {
 	public:
-		PolygonList();
+		PolygonList(std::string label = "");
 		virtual ~PolygonList();
 	};
 
@@ -82,7 +85,8 @@ public:
 			double left,
 			double bottom,
 			double right,
-			double top);
+			double top,
+			std::string label_col = "");
 
 	///
 	PointList points();
@@ -96,11 +100,11 @@ protected:
 	/// @return A pointer to geometry collection from the selected column of the current row.
 	gaiaGeomCollPtr Geom(int col) throw (std::string);
 	///
-	PointList point_list(gaiaGeomCollPtr);
+	PointList point_list(gaiaGeomCollPtr geom, std::string label);
 	///
-	LinestringList linestring_list(gaiaGeomCollPtr);
+	LinestringList linestring_list(gaiaGeomCollPtr geom, std::string label);
 	///
-	PolygonList polygon_list(gaiaGeomCollPtr);
+	PolygonList polygon_list(gaiaGeomCollPtr, std::string label);
 
 
 	PointList      _pointlist;
