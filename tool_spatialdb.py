@@ -4,6 +4,7 @@ import sys
 import eol_scons
 tools = ['sqlitedb','doxygen','prefixoptions']
 env = Environment(tools = ['default'] + tools)
+platform = env['PLATFORM']
 thisdir = env.Dir('.').srcnode().abspath
 
 libsources = Split("""
@@ -27,7 +28,8 @@ def spatialdb(env):
     env.AppendLibrary('geos')
     env.AppendLibrary('geos_c')
     env.AppendLibrary('proj')
-    env.AppendLibrary('iconv')
+    if (platform != 'posix'):
+        env.AppendLibrary('iconv')
     env.AppendDoxref('SpatialDB')  
     env.AppendUnique(CPPDEFINES=['SPATIALITE_AMALGAMATION',])
     env.Replace(CCFLAGS=['-g','-O2'])
