@@ -44,7 +44,6 @@ SpatiaLiteDB.h
 libspatialdb = env.Library('spatialdb', libsources)
 env.Default(libspatialdb)
 
-html = env.Apidocs(libsources + headers,  DOXYFILE_DICT={'PROJECT_NAME':'SpatiaLiteDB', 'PROJECT_NUMBER':'1.0'})
-env.Default(html)
+html = env.Apidocs(libsources + headers,  DOXYFILE_DICT={'PROJECT_NAME':'SpatialDB', 'PROJECT_NUMBER':'1.0'})
 
 
