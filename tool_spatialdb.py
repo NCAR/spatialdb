@@ -27,7 +27,6 @@ def spatialdb(env):
     env.AppendLibrary('proj')
     if (platform != 'posix'):
         env.AppendLibrary('iconv')
-    env.Replace(CCFLAGS=['-g','-O2'])
     env.Require(tools)
 
 Export('spatialdb')
