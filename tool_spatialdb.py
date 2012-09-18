@@ -27,6 +27,8 @@ def spatialdb(env):
     env.AppendLibrary('proj')
     if (platform != 'posix'):
         env.AppendLibrary('iconv')
+    if (platform == 'win32'):
+        env.AppendLibrary('freexl')
     env.Require(tools)
 
 Export('spatialdb')
