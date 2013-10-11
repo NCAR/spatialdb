@@ -9,42 +9,42 @@
 # is also needed by SQLiteDB, we let the sqlitedb tool provide
 # the required SpatiaLite plumbing.
 
-import os
-import sys
-import eol_scons
+toolname = 'spatialdb'
 
-tools = ['sqlitedb','doxygen','prefixoptions']
-env = Environment(tools = ['default'] + tools)
-platform = env['PLATFORM']
-thisdir = env.Dir('.').srcnode().abspath
+thisDir = Dir('.').abspath
+upDir   = Dir('./../').abspath
 
-# define the tool
+# Define tool
 def spatialdb(env):
-    env.AppendUnique(CPPPATH   =[thisdir,])
-    env.AppendLibrary('spatialdb')
+    env.Append(LIBS = toolname)
+    env.AppendUnique(CPPPATH = upDir)
+    env.AppendUnique(CPPPATH = thisDir)
+    env.AppendUnique(LIBPATH = thisDir)
     env.AppendLibrary('geos')
     env.AppendLibrary('geos_c')
     env.AppendLibrary('proj')
-    if (platform != 'posix'):
+    if (env['PLATFORM'] != 'posix'):
         env.AppendLibrary('iconv')
-    if (platform == 'win32'):
+    if (env['PLATFORM'] == 'win32'):
         env.AppendLibrary('freexl')
-    env.Require(tools)
+    env.Require(['qt4', 'prefixoptions', 'sqlitedb'])
+    env.EnableQt4Modules(['QtCore','QtGui'])
+    
+Export(toolname)
 
-Export('spatialdb')
+# Build the library
+env = Environment(tools = ['default', 'doxygen', toolname])
 
-# build the SpatialDB library
-libsources = Split("""
-SpatiaLiteDB.cpp
+sources = Split("""
+   SpatiaLiteDB.cpp
 """)
 
 headers = Split("""
-SpatiaLiteDB.h
+   SpatiaLiteDB.h
 """)
 
-libspatialdb = env.Library('spatialdb', libsources)
-env.Default(libspatialdb)
+lib = env.Library(toolname, sources)
+env.Default(lib)
 
-html = env.Apidocs(libsources + headers,  DOXYFILE_DICT={'PROJECT_NAME':'SpatialDB', 'PROJECT_NUMBER':'1.0'})
-
-
+# Create doxygen
+doxref = env.Apidocs(sources + headers, DOXYFILE_DICT={'PROJECT_NAME':toolname, 'PROJECT_NUMBER':'1.0'})
