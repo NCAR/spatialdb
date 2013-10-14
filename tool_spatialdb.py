@@ -16,7 +16,7 @@ upDir   = Dir('./../').abspath
 
 # Define tool
 def spatialdb(env):
-    env.Append(LIBS = toolname)
+    env.Append(LIBS = [toolname])
     env.AppendUnique(CPPPATH = upDir)
     env.AppendUnique(CPPPATH = thisDir)
     env.AppendUnique(LIBPATH = thisDir)
