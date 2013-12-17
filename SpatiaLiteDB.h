@@ -106,10 +106,12 @@ protected:
 	///
 	PolygonList polygon_list(gaiaGeomCollPtr, std::string label);
 
-
 	PointList      _pointlist;
 	LinestringList _linestringlist;
 	PolygonList    _polygonlist;
+
+	void* _connection;
+
 
 };
 

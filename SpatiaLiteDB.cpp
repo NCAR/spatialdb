@@ -149,20 +149,16 @@ SpatiaLiteDB::PolygonList::~PolygonList() {
 
 ////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::SpatiaLiteDB(std::string dbPath) throw (std::string) :
-SQLiteDB(dbPath, true)
+SQLiteDB(dbPath)
 {
-	// initialize spatiaLite. This must be done before
-	// initializing sqlite.
-	/// @todo Does this need to be a singleton for the process?
-	spatialite_init(1);
-
-	// initialize sqlite
-	SQLiteDB::init();
+	// initialize spatiaLite.
+	_connection = spatialite_alloc_connection();
+	spatialite_init_ex(handle(), _connection, true);
 }
 
 ////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::~SpatiaLiteDB() {
-
+	spatialite_cleanup_ex(_connection);
 }
 
 ////////////////////////////////////////////////////////////////////
