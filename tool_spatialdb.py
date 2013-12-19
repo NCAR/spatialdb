@@ -16,10 +16,26 @@ upDir   = Dir('./../').abspath
 
 # Define tool
 def spatialdb(env):
-    env.Append(LIBS = [toolname])
+
+	# get options and look for SPATIALITEDIR
+    options = env.GlobalVariables()
+    options.AddVariables(PathVariable('SPATIALITEDIR', 'SpatiaLite installation root.', None))
+    options.Update(env)
+
+    # other tools we need
+    env.Require(['qt4', 'prefixoptions', 'sqlitedb'])
+    env.EnableQt4Modules(['QtCore','QtGui'])	
+
     env.AppendUnique(CPPPATH = upDir)
     env.AppendUnique(CPPPATH = thisDir)
     env.AppendUnique(LIBPATH = thisDir)
+    if env.has_key('SPATIALITEDIR'):
+        env.AppendUnique(CPPPATH=[env['SPATIALITEDIR']+'/include',])
+        env.AppendUnique(LIBPATH=[env['SPATIALITEDIR']+'/lib',])
+    
+    # Add libraries
+    env.AppendLibrary(toolname)
+    env.AppendLibrary('spatialite')
     env.AppendLibrary('geos')
     env.AppendLibrary('geos_c')
     env.AppendLibrary('proj')
@@ -27,8 +43,6 @@ def spatialdb(env):
         env.AppendLibrary('iconv')
     if (env['PLATFORM'] == 'win32'):
         env.AppendLibrary('freexl')
-    env.Require(['qt4', 'prefixoptions', 'sqlitedb'])
-    env.EnableQt4Modules(['QtCore','QtGui'])
     
 Export(toolname)
 
