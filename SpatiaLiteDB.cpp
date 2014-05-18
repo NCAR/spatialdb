@@ -189,11 +189,11 @@ void SpatiaLiteDB::queryGeometry(
 
 	// The query will be either
 	//
-	// SELECT Geometry FROM  table WHERE MbrWithin(Column, BuildMbr(-180.0, -90.0, 180.0, 90.0));
+	// SELECT Geometry FROM  table WHERE MbrWithin(Column, BuildMbr(left, bottom, right, top));
 	//    or
-	// SELECT Geometry,Label FROM  table WHERE MbrWithin(Column, BuildMbr(-180.0, -90.0, 180.0, 90.0));
+	// SELECT Geometry,Label FROM  table WHERE MbrWithin(Column, BuildMbr(left, bottom, right, top));
 	//
-	// where Geometry is the geometry column name and Label is the column containing a name or label
+	// where Geometry is the geometry column name and Label is the column containing a name or label.
 	std::string label;
 	if (getLabel) {
 		label = "," + label_col;
