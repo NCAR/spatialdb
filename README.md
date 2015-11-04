@@ -18,6 +18,9 @@ The user needs to have an awareness of the feature names that
 the database contains. Feature names are strings such as *coastline*,
 *rivers_lake_centerlines*, *populated_places*, and so on.
 
+[qmicromap_data](https://github.com/ncareol/qmicromap_data.git) provides some
+spatialdb compatible databases.
+
 ## Dependencies
  * [sqlitedb](https://github.com/ncareol/sqlitedb)
  
