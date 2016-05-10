@@ -14,12 +14,17 @@ toolname = 'spatialdb'
 thisDir = Dir('.').abspath
 upDir   = Dir('./../').abspath
 
+options = None
+
 # Define tool
 def spatialdb(env):
 
 	# get options and look for SPATIALITEDIR
-    options = env.GlobalVariables()
-    options.AddVariables(PathVariable('SPATIALITEDIR', 'SpatiaLite installation root.', None))
+    global options
+    if not options:
+        options = env.GlobalVariables()
+        options.AddVariables(PathVariable('SPATIALITEDIR',
+                                          'SpatiaLite installation root.', None))
     options.Update(env)
 
     # other tools we need
