@@ -19,7 +19,7 @@ options = None
 # Define tool
 def spatialdb(env):
 
-	# get options and look for SPATIALITEDIR
+    # get options and look for SPATIALITEDIR
     global options
     if not options:
         options = env.GlobalVariables()
@@ -33,7 +33,6 @@ def spatialdb(env):
 
     env.AppendUnique(CPPPATH = upDir)
     env.AppendUnique(CPPPATH = thisDir)
-    env.AppendUnique(LIBPATH = thisDir)
     if env.has_key('SPATIALITEDIR'):
         env.AppendUnique(CPPPATH=[env['SPATIALITEDIR']+'/include',])
         env.AppendUnique(LIBPATH=[env['SPATIALITEDIR']+'/lib',])
