@@ -262,9 +262,15 @@ gaiaGeomCollPtr SpatiaLiteDB::Geom(int col) throw (std::string) {
 	gaiaGeomCollPtr geom;
 
 	blob = Blob(col, blob_size);
-	/// @todoDoes geom need to be freed at some time?
+
 	geom = gaiaFromSpatiaLiteBlobWkb((const unsigned char*) blob, blob_size);
 
+<<<<<<< HEAD
+=======
+	// Save geom for later cleanup.
+	_geoms.push_back(geom);
+
+>>>>>>> 30b374a... Fix memory leak.
 	return geom;
 }
 
