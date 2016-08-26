@@ -224,6 +224,8 @@ protected:
 	PolygonList    _polygonlist;
 	/// The SQLite database connection.
 	void* _connection;
+	/// Save the geom for freeing
+	std::vector<gaiaGeomCollPtr> _geoms;
 };
 
 std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Point &rhs);

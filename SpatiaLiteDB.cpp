@@ -149,15 +149,21 @@ SpatiaLiteDB::PolygonList::~PolygonList() {
 
 ////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::SpatiaLiteDB(std::string dbPath) throw (std::string) :
-SQLiteDB(dbPath)
+SQLiteDB(dbPath, true)
 {
 	// initialize spatiaLite.
 	_connection = spatialite_alloc_connection();
+
+	SQLiteDB::init();
+
 	spatialite_init_ex(handle(), _connection, true);
 }
 
 ////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::~SpatiaLiteDB() {
+
+	SQLiteDB::close();
+
 	spatialite_cleanup_ex(_connection);
 }
 
@@ -265,12 +271,9 @@ gaiaGeomCollPtr SpatiaLiteDB::Geom(int col) throw (std::string) {
 
 	geom = gaiaFromSpatiaLiteBlobWkb((const unsigned char*) blob, blob_size);
 
-<<<<<<< HEAD
-=======
 	// Save geom for later cleanup.
 	_geoms.push_back(geom);
 
->>>>>>> 30b374a... Fix memory leak.
 	return geom;
 }
 
