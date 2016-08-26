@@ -162,6 +162,10 @@ SQLiteDB(dbPath, true)
 ////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::~SpatiaLiteDB() {
 
+	for (int i = 0; i < _geoms.size(); i++) {
+		gaiaFreeGeomColl(_geoms[i]);
+	}
+
 	SQLiteDB::close();
 
 	spatialite_cleanup_ex(_connection);
