@@ -161,7 +161,7 @@ public:
 	/// Destructor
 	virtual ~SpatiaLiteDB();
 	/// @return Return a string with version information
-	std::string version();
+	static std::string version();
 	/// Find out what geometry features are available. All of the tables
 	/// in the database are checked to see if they have a "geometry" column.
 	/// If so, the table name is returned.
