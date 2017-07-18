@@ -28,8 +28,8 @@ def spatialdb(env):
     options.Update(env)
 
     # other tools we need
-    env.Require(['qt4', 'prefixoptions', 'sqlitedb'])
-    env.EnableQt4Modules(['QtCore','QtGui'])	
+    env.Require(['qt5', 'prefixoptions', 'sqlitedb'])
+    env.EnableQtModules(['QtCore','QtGui'])	
 
     env.AppendUnique(CPPPATH = upDir)
     env.AppendUnique(CPPPATH = thisDir)
