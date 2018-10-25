@@ -22,8 +22,8 @@ the database contains. Feature names are strings such as *coastline*,
 spatialdb compatible databases.
 
 ## Dependencies
- * [sqlitedb](https://github.com/ncareol/sqlitedb)
+ * [sqlitedb](https://github.com/NCAR/sqlitedb)
  
 ## Used By
- * [qmicromap](https://github.com/ncareol/qmicromap)
- * [aspen](https://github.com/ncareol/aspen)
+ * [qmicromap](https://github.com/NCAR/qmicromap)
+ * [aspen](https://github.com/NCAR/aspen)
