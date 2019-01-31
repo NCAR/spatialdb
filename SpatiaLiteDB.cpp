@@ -106,7 +106,7 @@ std::vector<SpatiaLiteDB::Ring> SpatiaLiteDB::Polygon::intRings() {
 std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Polygon& rhs) {
 	lhs << rhs._extRing;
 
-	for (int i = 0;
+	for (unsigned int i = 0;
 			i < rhs._intRings.size();
 			i++) {
 		lhs << rhs._intRings[i];
@@ -162,7 +162,7 @@ SQLiteDB(dbPath, true)
 ////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::~SpatiaLiteDB() {
 
-	for (int i = 0; i < _geoms.size(); i++) {
+	for (unsigned int i = 0; i < _geoms.size(); i++) {
 		gaiaFreeGeomColl(_geoms[i]);
 	}
 
