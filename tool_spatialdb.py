@@ -62,9 +62,9 @@ tooldir = env.Dir('.')
 def spatialdb(env):
     "Setup to build against the spatialdb library."
     # Everything required to build it, plus the library itself and headers.
+    env.AppendLibrary(toolname)
     build_spatialdb(env)
     env.AppendUnique(CPPPATH=tooldir.Dir('..'))
-    env.AppendLibrary(toolname)
 
 
 Export(toolname)
