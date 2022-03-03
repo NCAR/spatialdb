@@ -157,7 +157,7 @@ public:
 	/// Constructor
 	/// @param dbPath Path to an existing valid SpatiaLite
 	/// database.
-	SpatiaLiteDB(std::string dbPath) throw (std::string);
+	SpatiaLiteDB(std::string dbPath);
 	/// Destructor
 	virtual ~SpatiaLiteDB();
 	/// @return Return a string with version information
@@ -200,7 +200,7 @@ protected:
 	/// SQLiteDB::step() is used to advance to the next row.
 	/// @param col The column to be extracted.
 	/// @return A pointer to geometry collection from the selected column of the current row.
-	gaiaGeomCollPtr Geom(int col) throw (std::string);
+	gaiaGeomCollPtr Geom(int col);
 	/// Find all points for the specified geometry.
 	/// @param geom The geometry (from one row).
 	/// @param label A label to be included with the point.

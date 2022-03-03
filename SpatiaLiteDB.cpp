@@ -148,7 +148,7 @@ SpatiaLiteDB::PolygonList::~PolygonList() {
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::SpatiaLiteDB(std::string dbPath) throw (std::string) :
+SpatiaLiteDB::SpatiaLiteDB(std::string dbPath) :
 SQLiteDB(dbPath, true)
 {
 	// initialize spatiaLite.
@@ -262,7 +262,7 @@ void SpatiaLiteDB::queryGeometry(
 }
 
 ////////////////////////////////////////////////////////////////////
-gaiaGeomCollPtr SpatiaLiteDB::Geom(int col) throw (std::string) {
+gaiaGeomCollPtr SpatiaLiteDB::Geom(int col) {
 
 	// throw an exception if the requested column doesn't exist
 	checkColumn(SQLITE_BLOB, col);
