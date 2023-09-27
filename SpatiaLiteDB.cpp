@@ -137,7 +137,7 @@ SpatiaLiteDB::LinestringList::~LinestringList() {
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::PolygonList::PolygonList(std::string label)
+SpatiaLiteDB::PolygonList::PolygonList(std::string /*label*/)
 {
 
 }
