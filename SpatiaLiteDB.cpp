@@ -1,4 +1,5 @@
 #include "SpatiaLiteDB.h"
+#include <spatialite.h>
 #include <iostream>
 #include <algorithm>
 
