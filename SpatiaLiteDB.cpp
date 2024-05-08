@@ -12,11 +12,6 @@ _label(label)
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::Point::~Point() {
-
-}
-
-////////////////////////////////////////////////////////////////////
 std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Point& rhs) {
 	lhs << "(" << rhs._x << "," << rhs._y << ")";
 	return lhs;
@@ -26,11 +21,6 @@ std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Point& rhs) {
 SpatiaLiteDB::Linestring::Linestring(std::string label):
 _label(label)
 {
-
-}
-
-////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::Linestring::~Linestring() {
 
 }
 
@@ -57,11 +47,6 @@ SpatiaLiteDB::Ring::Ring(int clockwise):
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::Ring::~Ring() {
-
-}
-
-////////////////////////////////////////////////////////////////////
 std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Ring& rhs) {
 	for (SpatiaLiteDB::Ring::iterator i = rhs.begin();
 			i != rhs.end();
@@ -75,11 +60,6 @@ std::ostream& operator<<(std::ostream& lhs, SpatiaLiteDB::Ring& rhs) {
 SpatiaLiteDB::Polygon::Polygon(std::string label):
 _label(label)
 {
-
-}
-
-////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::Polygon::~Polygon() {
 
 }
 
@@ -122,29 +102,14 @@ SpatiaLiteDB::PointList::PointList()
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::PointList::~PointList() {
-
-}
-
-////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::LinestringList::LinestringList()
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::LinestringList::~LinestringList() {
-
-}
-
-////////////////////////////////////////////////////////////////////
 SpatiaLiteDB::PolygonList::PolygonList(std::string /*label*/)
 {
-
-}
-
-////////////////////////////////////////////////////////////////////
-SpatiaLiteDB::PolygonList::~PolygonList() {
 
 }
 

@@ -33,8 +33,6 @@ public:
 		/// @param y Y (latitude) location.
 		/// @param label An optional label for the point.
 		Point(double x, double y, std::string label = "");
-		/// Destructor
-		virtual ~Point();
 		/// Send a basic display of the characteristics of Point to a stream.
 		/// The x and y coordinates are displayed. The label is not displayed.
 		/// @param lhs The output stream.
@@ -55,8 +53,6 @@ public:
 		/// Constructor
 		/// @param label Optional label.
 		Linestring(std::string label = "");
-		/// Destructor
-		virtual ~Linestring();
 		/// The label.
 		std::string _label;
 		/// Send a basic display of the characteristics of Linestring to a stream. The
@@ -75,8 +71,6 @@ public:
 		/// Constructor
 		/// @param clockwise True if the path is clockwise.
 		Ring(int clockwise);
-		/// Destructor
-		virtual ~Ring();
 		/// Send a basic display of the characteristics of Ring to a stream.
 		/// Each Point is displayed.
 		/// @param lhs The output stream.
@@ -94,8 +88,6 @@ public:
 		/// Constructor
 		/// @param label Optional label.
 		Polygon(std::string label = "");
-		/// Destructor
-		virtual ~Polygon();
 		/// Specify the external ring.
 		/// @todo Is it legal for Polygon to not have an external ring?
 		/// Why isn't the external ring required in the constructor?
@@ -130,8 +122,6 @@ public:
 	public:
 		/// Constructor
 		PointList();
-		/// Destructor
-		virtual ~PointList();
 	};
 
 	/// A simple list of Linestring.
@@ -139,8 +129,6 @@ public:
 	public:
 		/// Constructor
 		LinestringList();
-		/// Destructor
-		virtual ~LinestringList();
 	};
 
 	/// A simple list of Polygon.
@@ -149,8 +137,6 @@ public:
 		/// Constructor
 		/// @param label An optional label.
 		PolygonList(std::string label = "");
-		/// Destructor
-		virtual ~PolygonList();
 	};
 
 public:
