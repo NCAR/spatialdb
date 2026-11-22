@@ -4,7 +4,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
-#include "SQLiteDB.h"
+#include "SQLiteDB/SQLiteDB.h"
 #include <spatialite/gaiageo.h>
 
 /// A wrapper for the SpatiaLite Database. Some of the SpatiaLite (i.e. PostGIS)
